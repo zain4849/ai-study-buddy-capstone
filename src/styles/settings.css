@@ -1,0 +1,16 @@
+.settings-form { max-width: 34rem; padding: 1.5rem; border: 1px solid #d1d5db; border-radius: .75rem; color: #111827; }
+.settings-form h2 { margin-top: 0; }
+.form-field { display: grid; gap: .45rem; margin: 1.25rem 0; border: 0; padding: 0; }
+.settings-form select, .settings-form button { min-height: 2.75rem; padding: .5rem .75rem; font: inherit; }
+.radio-options { display: flex; flex-wrap: wrap; gap: 1rem; }
+.field-error, .form-message--error { color: #b91c1c; margin: 0; }
+.form-message--success { color: #047857; margin: 0 0 1rem; }
+.settings-form button { background: #2563eb; border: 0; border-radius: .375rem; color: #fff; cursor: pointer; }
+.settings-form button:disabled { background: #9ca3af; cursor: not-allowed; }
+.toggle-label { align-items: center; cursor: pointer; display: inline-flex; gap: .6rem; }
+.toggle-label input { height: 1px; opacity: 0; position: absolute; width: 1px; }
+.toggle { background: #9ca3af; border-radius: 999px; height: 1.4rem; position: relative; width: 2.6rem; }
+.toggle::after { background: #fff; border-radius: 50%; content: ''; height: 1rem; left: .2rem; position: absolute; top: .2rem; transition: transform .2s; width: 1rem; }
+.toggle-label input:checked + .toggle { background: #2563eb; }
+.toggle-label input:checked + .toggle::after { transform: translateX(1.2rem); }
+.toggle-label input:focus-visible + .toggle { outline: 3px solid #93c5fd; outline-offset: 2px; }
