@@ -16,12 +16,14 @@ Both used GitHub Copilot to generate the same feature.
 ### Code Organization
 
 **Vague version:**
+
 - Everything crammed into `main.jsx` (~500 lines)
 - Icon component with 50+ inline SVG paths
 - Toggle button helper mixed in
 - Entire sidebar, profile section, help card—things I never asked for
 
 **Precise version:**
+
 - `SettingsForm.js` (113 lines, just the form)
 - `validation.js` (22 lines for validation logic)
 - Separate CSS files organized by concern
@@ -44,11 +46,13 @@ The vague version generated a full app layout when I just wanted a settings form
 ### Edge Cases
 
 **Vague doesn't handle:**
+
 - Clearing localStorage (form has no defaults)
 - Rapid submit clicks
 - Invalid options being selected
 
 **Precise handles all of these:**
+
 - Loads saved settings on mount, falls back to defaults
 - "Changes saved" message prevents accidental double-clicks
 - Only allows valid options through validation
@@ -66,11 +70,13 @@ The vague version generated a full app layout when I just wanted a settings form
 ### Testing & Review
 
 **Vague took 3 rounds:**
+
 1. Got full sidebar/profile (too much)
 2. Asked to remove stuff, focus on settings
 3. Asked to add validation
 
 **Precise took 1 round:**
+
 - Prompt was specific enough that the AI got it right
 - Just minor CSS tweaks needed
 - Tests already included
@@ -82,6 +88,7 @@ The vague approach felt fast initially but needed constant feedback loops. Preci
 ## Key Insight
 
 The vague prompt didn't specify:
+
 - Where files should go
 - What validation should look like
 - That I wanted tests
