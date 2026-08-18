@@ -16,12 +16,14 @@ Both used GitHub Copilot.
 ### Organization
 
 **Vague:** Everything in one `main.jsx` file (52+ lines).
+
 - Icon component with 50+ lines of inline SVG paths
 - Toggle button helper mixed in
 - Full sidebar, profile section, help card—stuff I never asked for
 - Just `src/main.jsx` and `src/styles.css`
 
 **Precise:** Clean structure.
+
 - `main.jsx` (16 lines—just the entry point)
 - `components/SettingsForm.js` (113 lines—the actual form)
 - `utils/validation.js` (22 lines—validation logic)
@@ -55,11 +57,13 @@ The vague version bloated up with features I didn't ask for. The precise prompt'
 ### Review Iterations
 
 **Vague took 3 rounds:**
+
 1. Got full sidebar/profile (too much)
 2. Asked to remove stuff
 3. Asked to add validation
 
 **Precise took 1 round:**
+
 - Prompt was specific enough
 - Got mostly right code on first try
 - Just tweaked CSS
