@@ -1,112 +1,85 @@
 # Workflow: Vague vs. Precise AI Prompts
 
-## Experiment Setup
+## The Experiment
 
-I built a settings form twice—once with a vague prompt, once with detailed specs—to see how prompt quality affects code quality.
+Built a settings form twice to compare how prompt quality affects the code I get back.
 
-- **Round 1 (Vague):** `feature/settings-vague` — Single prompt with minimal detail
-- **Round 2 (Precise):** `feature/settings-precise` — Detailed prompt with file paths, validation rules, and test requirements
+- **Vague:** Single sentence request, accepted what AI generated
+- **Precise:** Detailed spec with file paths, validation requirements, tests
 
-Both used GitHub Copilot to generate the same feature.
+Both used GitHub Copilot.
 
 ---
 
-## What Actually Happened
+## What Happened
 
-### Code Organization
+### Organization
 
-**Vague version:**
-
-- Everything crammed into `main.jsx` (~500 lines)
-- Icon component with 50+ inline SVG paths
+**Vague:** Everything in one `main.jsx` file (52+ lines).
+- Icon component with 50+ lines of inline SVG paths
 - Toggle button helper mixed in
-- Entire sidebar, profile section, help card—things I never asked for
+- Full sidebar, profile section, help card—stuff I never asked for
+- Just `src/main.jsx` and `src/styles.css`
 
-**Precise version:**
+**Precise:** Clean structure.
+- `main.jsx` (16 lines—just the entry point)
+- `components/SettingsForm.js` (113 lines—the actual form)
+- `utils/validation.js` (22 lines—validation logic)
+- Separate test files for both
+- Organized styles: `app.css` + `settings.css`
 
-- `SettingsForm.js` (113 lines, just the form)
-- `validation.js` (22 lines for validation logic)
-- Separate CSS files organized by concern
-- Exactly what I asked for, nothing extra
-
-The vague version generated a full app layout when I just wanted a settings form. The precise prompt's file structure and constraints prevented scope creep.
-
----
-
-### Validation & Correctness
-
-**Vague:** No validation at all. Form accepts any input, no error messages, no feedback. The `set()` function just updates state directly.
-
-**Precise:** Has a `validateSettings()` function that checks fields before saving. Shows error messages. Disables the submit button until the form is valid. Validates again on form submit before actually saving to localStorage.
-
-**Real mistake I caught:** The vague version couldn't prevent bad data from being saved. If someone somehow saved invalid settings, the app could crash on reload. The precise version anticipates this with explicit validation.
+The vague version bloated up with features I didn't ask for. The precise prompt's file structure prevented scope creep.
 
 ---
 
-### Edge Cases
+### Correctness
 
-**Vague doesn't handle:**
+**Vague:** No validation. Form accepts any input without checks. Just updates state directly.
 
-- Clearing localStorage (form has no defaults)
-- Rapid submit clicks
-- Invalid options being selected
+**Precise:** Has `validateSettings()` function. Checks fields, shows error messages, disables submit if invalid. Validates again before saving to localStorage.
 
-**Precise handles all of these:**
-
-- Loads saved settings on mount, falls back to defaults
-- "Changes saved" message prevents accidental double-clicks
-- Only allows valid options through validation
+**Real mistake I caught:** If bad data got into localStorage in the vague version, the app could crash on reload. The precise version handles this.
 
 ---
 
-### Accessibility
+### What's Missing in Vague
 
-**Vague:** Labels exist but aren't connected to inputs. No aria attributes. Just bare form elements.
-
-**Precise:** Proper `<label>` elements, `aria-invalid` attributes, semantic HTML. Actually usable for screen readers.
+- No tests (precise has `.test.js` files)
+- No validation module (validation mixed nowhere, doesn't exist)
+- No error handling
+- No default values
+- Icons as massive inline SVGs (should be separate)
 
 ---
 
-### Testing & Review
+### Review Iterations
 
 **Vague took 3 rounds:**
-
 1. Got full sidebar/profile (too much)
-2. Asked to remove stuff, focus on settings
+2. Asked to remove stuff
 3. Asked to add validation
 
 **Precise took 1 round:**
-
-- Prompt was specific enough that the AI got it right
-- Just minor CSS tweaks needed
-- Tests already included
-
-The vague approach felt fast initially but needed constant feedback loops. Precise prompts save iteration time.
+- Prompt was specific enough
+- Got mostly right code on first try
+- Just tweaked CSS
 
 ---
 
-## Key Insight
+## What I Realized
 
-The vague prompt didn't specify:
+Without telling Copilot exactly where to put code, what to validate, and that I wanted tests—it made different assumptions. It added features. It skipped validation.
 
-- Where files should go
-- What validation should look like
-- That I wanted tests
-- What edge cases matter
-- Accessibility requirements
-
-Without these constraints, the AI made reasonable but wrong assumptions. It added features I never asked for. It skipped validation because I didn't mention it.
-
-The precise prompt said exactly what to build, where to build it, and how to verify it works.
+The precise prompt said: build SettingsForm.js here, validation.js there, write tests, validate these fields. It executed.
 
 ---
 
-## What I'm Taking Away
+## Taking Away
 
-1. **Always specify file structure** — Tell the AI exactly where to put code
-2. **Validation is separate** — Never mix it into components
-3. **Request tests immediately** — "Write it, then write tests" prevents untestable code
-4. **Use constraints** — "Keep under 150 lines" forces better design than "make it good"
-5. **Mention accessibility upfront** — If I don't ask for it, it doesn't happen
+1. **Specify file paths** — Tell AI where files go
+2. **Validation is separate** — Don't let it live in components
+3. **Ask for tests upfront** — "Write it, then write tests"
+4. **Set constraints** — "Keep under 150 lines" forces better decisions
+5. **Mention a11y** — If I don't ask for labels/aria, it won't be there
 
-The AI didn't get smarter between rounds. I got clearer about what I wanted.
+The AI didn't change. My prompts did.
